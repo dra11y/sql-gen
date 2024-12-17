@@ -73,7 +73,13 @@ pub fn convert_data_type(data_type: &str) -> String {
         "timestamp" => "chrono::NaiveDateTime",
         "timestamptz" => "chrono::DateTime<chrono::Utc>",
         "uuid" => "uuid::Uuid",
-        _ => panic!("Unknown type: {}", data_type),
+        _ => {
+            eprintln!(
+                "WARNING! Unknown type: {}, converting as serde_json::Value",
+                data_type
+            );
+            "serde_json::Value"
+        }
     }
     .to_string()
 }
